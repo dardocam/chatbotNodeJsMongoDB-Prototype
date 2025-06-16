@@ -1,0 +1,24 @@
+import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+// import messageRoutes from "./routes/messageRoutes.js";
+
+const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+
+// Rutas
+app.use("/api/users", userRoutes);
+// app.use("/api/messages", messageRoutes);
+
+// Manejo de errores
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Error interno del servidor" });
+});
+
+export default app;

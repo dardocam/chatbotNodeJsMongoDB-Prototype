@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
-// import messageRoutes from "./routes/messageRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Rutas
 app.use("/api/users", userRoutes);
-// app.use("/api/messages", messageRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Manejo de errores
 app.use((err, req, res, next) => {

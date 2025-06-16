@@ -1,24 +1,24 @@
 # version: '3.8'
 
 services:
-  node-app:
-    container_name: node-microservice
-    build:
-      context: .  # Ruta del Dockerfile
-      dockerfile: nodeDocker/Dockerfile
-    ports:
-      - "3000:3000"  # Host:Contenedor
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-    volumes:
-      - .:/app      # Monta el código (modo desarrollo)
-      - /app/node_modules  # Evita sobrescribir dependencias
-    restart: unless-stopped
-    networks:
-      - db-network
-    depends_on:
-      - mongo-db
+  # node-app:
+  #   container_name: node-microservice
+  #   build:
+  #     context: .  # Ruta del Dockerfile
+  #     dockerfile: nodeDocker/Dockerfile
+  #   ports:
+  #     - "3000:3000"  # Host:Contenedor
+  #   environment:
+  #     NODE_ENV: production
+  #     PORT: 3000
+  #   volumes:
+  #     - .:/app      # Monta el código (modo desarrollo)
+  #     - /app/node_modules  # Evita sobrescribir dependencias
+  #   restart: unless-stopped
+  #   networks:
+  #     - db-network
+  #   depends_on:
+  #     - mongo-db
 
   mongo-db:
     container_name: mongo-db

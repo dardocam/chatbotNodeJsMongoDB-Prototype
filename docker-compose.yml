@@ -1,0 +1,49 @@
+# version: '3.8'
+
+services:
+  node-app:
+    container_name: node-microservice
+    build:
+      context: .  # Ruta del Dockerfile
+      dockerfile: nodeDocker/Dockerfile
+    ports:
+      - "3000:3000"  # Host:Contenedor
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    volumes:
+      - .:/app      # Monta el código (modo desarrollo)
+      - /app/node_modules  # Evita sobrescribir dependencias
+    restart: unless-stopped
+    networks:
+      - db-network
+    depends_on:
+      - mongo-db
+
+  mongo-db:
+    container_name: mongo-db
+    build:
+      context: ./mongoDocker  # Ruta del Dockerfile
+      dockerfile: Dockerfile
+    logging:
+      driver: "none"   # ni consola ni docker logs
+    restart: unless-stopped
+    volumes:
+      - ./mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      # ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
+    networks:
+      - db-network
+  
+
+volumes:
+  mongo-data:
+
+networks:
+  db-network:
+    driver: bridge
